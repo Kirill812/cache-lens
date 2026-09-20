@@ -124,6 +124,41 @@ else
     fail 'emits valid JSON' 'parseable' "$_stale"
 fi
 
+# --- the welcome page ----------------------------------------------------
+printf '\nwelcome page\n'
+
+_page=$(bash "$_plugin/scripts/welcome.sh")
+
+# Installing a plugin usually means it is now working. Half of this one is not,
+# and cache warming is absent entirely. If the page ever stops saying all three
+# things plainly, a user walks away believing they are covered when they are not
+# — which is worse than never installing it. These four assertions exist to stop
+# an edit from quietly losing that.
+page_says() {
+    case "$_page" in
+        (*"$2"*) pass "$1" ;;
+        (*) fail "$1" "$2" '(missing from the page)' ;;
+    esac
+}
+page_says 'declares what is already on'   'ᴏɴ ᴀʟʀᴇᴀᴅʏ'
+page_says 'declares what is not on'       'ɴᴏᴛ ᴏɴ — ʏᴏᴜʀ ᴄᴀʟʟ'
+page_says 'declares what it never does'   'ɴᴏᴛ ɪɴ ᴛʜɪs ᴘʟᴜɢɪɴ ᴀᴛ ᴀʟʟ'
+page_says 'offers the choice, both ways'  'not now'
+page_says 'names the install command'     '/cache-lens:setup'
+
+# The layout is the design here: a wrapped box border reads as broken software.
+_wide=$(printf '%s\n' "$_page" | awk '{ print }' | while IFS= read -r _l; do
+    _n=$(printf '%s' "$_l" | wc -m | tr -d ' ')
+    [ "$_n" -gt 70 ] && printf 'x'
+done)
+[ -z "$_wide" ] && pass 'every line fits 70 columns' \
+    || fail 'every line fits 70 columns' 'all ≤70' 'some line overflows'
+
+_b1=$(printf '%s\n' "$_page" | sed -n 1p | wc -m | tr -d ' ')
+_b3=$(printf '%s\n' "$_page" | sed -n 3p | wc -m | tr -d ' ')
+[ "$_b1" = "$_b3" ] && pass 'title box is square' \
+    || fail 'title box is square' "top $_b1 = bottom $_b1" "top $_b1, bottom $_b3"
+
 printf '\n'
 if [ "$_fail" -eq 0 ]; then printf 'all passed\n'; exit 0
 else printf '%d failed\n' "$_fail"; exit 1; fi

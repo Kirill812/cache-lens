@@ -25,6 +25,17 @@ had left open, and move on.
 Cache Lens shows you. It does not ping anything, spend anything, or change how
 your sessions work.
 
+### What you get, and what you have to ask for
+
+| | | |
+|---|---|---|
+| ● | **Resume warning** | On the moment you install. Nothing to configure. |
+| ○ | **Status-line bar** | Your call — one command, `/cache-lens:setup`. A plugin is not permitted to set `statusLine`, so this cannot install itself. |
+| ✕ | **Cache warming** | Not in this plugin at all. No pings, no background requests, nothing spent on your behalf. [Why not](#what-this-deliberately-does-not-do). |
+
+The first session after install shows this same breakdown and asks whether you
+want the bar. Declining is doing nothing — the page will not ask twice.
+
 ---
 
 ## Install
@@ -234,7 +245,7 @@ much, and one of the plugins above will earn its keep.
 ## Development
 
 ```bash
-bash tests/check.sh                          # 21 assertions, no framework
+bash tests/check.sh                          # 28 assertions, no framework
 claude plugin validate .                     # marketplace manifest
 claude plugin validate ./plugins/cache-lens  # plugin manifest and skills
 ```

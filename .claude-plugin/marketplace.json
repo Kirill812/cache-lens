@@ -1,0 +1,26 @@
+{
+  "name": "cache-lens",
+  "owner": {
+    "name": "Kirill Gorynya",
+    "url": "https://github.com/Kirill812"
+  },
+  "metadata": {
+    "description": "Prompt-cache visibility for Claude Code."
+  },
+  "plugins": [
+    {
+      "name": "cache-lens",
+      "source": "./plugins/cache-lens",
+      "description": "Shows what your prompt cache is doing: a draining bar in the status line, and what a stale resume will cost before the first request goes out.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "keywords": [
+        "prompt-cache",
+        "status-line",
+        "cost",
+        "tokens",
+        "observability"
+      ]
+    }
+  ]
+}

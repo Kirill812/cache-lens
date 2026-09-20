@@ -1,0 +1,20 @@
+{
+  "name": "cache-lens",
+  "displayName": "Cache Lens",
+  "version": "1.0.0",
+  "description": "Shows what your prompt cache is doing: a draining bar in the status line, and what a stale resume will cost before the first request goes out.",
+  "author": {
+    "name": "Kirill Gorynya",
+    "url": "https://github.com/Kirill812"
+  },
+  "homepage": "https://github.com/Kirill812/cache-lens",
+  "repository": "https://github.com/Kirill812/cache-lens",
+  "license": "MIT",
+  "keywords": [
+    "prompt-cache",
+    "status-line",
+    "cost",
+    "tokens",
+    "observability"
+  ]
+}

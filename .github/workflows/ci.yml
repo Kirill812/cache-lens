@@ -1,0 +1,28 @@
+name: ci
+# Public repo: the self-hosted pool doesn't serve public repos, GitHub-hosted minutes are free here.
+on:
+  push:
+    branches: [main]
+  pull_request:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+permissions:
+  contents: read
+jobs:
+  check:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]   # users run the plugin on macOS (bash 3.2, BSD date)
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash tests/check.sh
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: shellcheck --severity=warning plugins/cache-lens/scripts/*.sh tests/check.sh
+      - run: for f in .claude-plugin/*.json plugins/cache-lens/.claude-plugin/plugin.json plugins/cache-lens/hooks/hooks.json; do jq empty "$f"; done
